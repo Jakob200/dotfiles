@@ -4,7 +4,7 @@
 # Use $0 instead of BASH_SOURCE for POSIX compliance
 DOTFILES_DIR="$(cd "$(dirname "$0")" && pwd)"
 
-echo "Setting up dotfiles from $DOTFILES_DIR..."
+echo "Setting up dotfiles from $DOTFILES_DIR/dotfiles..."
 
 # 1. Alpine Rescue: Install required shells and tools if on Alpine
 if command -v apk >/dev/null 2>&1; then
@@ -12,16 +12,16 @@ if command -v apk >/dev/null 2>&1; then
     sudo apk add --no-cache bash zsh git curl ncurses git-lfs 2>/dev/null || apk add --no-cache bash zsh git curl ncurses git-lfs
 fi
 
-# 2. Symlink dotfiles (using a standard loop instead of a Bash array)
+# 2. Symlink dotfiles (Updated to target the 'dotfiles' subfolder)
 for file in .bashrc .zshrc .p10k.zsh .gitconfig; do
-    if [ -f "$DOTFILES_DIR/$file" ]; then
+    if [ -f "$DOTFILES_DIR/dotfiles/$file" ]; then
         if [ -f "$HOME/$file" ] && [ ! -L "$HOME/$file" ]; then
             mv "$HOME/$file" "$HOME/${file}.bak"
             echo "Backed up existing ~/$file to ~/${file}.bak"
         fi
         
-        ln -sf "$DOTFILES_DIR/$file" "$HOME/$file"
-        echo "Linked ~/$file -> $DOTFILES_DIR/$file"
+        ln -sf "$DOTFILES_DIR/dotfiles/$file" "$HOME/$file"
+        echo "Linked ~/$file -> $DOTFILES_DIR/dotfiles/$file"
     else
         echo "Warning: $file not found in dotfiles repository. Skipping."
     fi
