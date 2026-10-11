@@ -51,8 +51,7 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 
 # Load plugins (Combined CachyOS native plugins + your requested ones)
 plugins=(
-    git 
-    fzf 
+    git  
     extract
     zsh-autosuggestions
     zsh-syntax-highlighting
